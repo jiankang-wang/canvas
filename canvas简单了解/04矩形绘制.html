@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id=""></canvas>
+</body>
+<script>
+    var cans = document.querySelector("canvas");
+    cans.width = 600;
+    cans.height = 300;
+    cans.style.border = "1px solid red";
+    var context = cans.getContext("2d");
+    // context.rect(100, 100, 200, 100);
+    // context.stroke();
+    // context.strokeRect(100, 100, 200, 150);
+    context.fillStyle = "red";
+    context.setLineDash([5, 10]);
+    context.fillRect(100, 100, 200, 100);
+    context.clearRect(170, 130, 50, 50);
+</script>
+
+</html>

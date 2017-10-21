@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 600px;
+            height: 600px;
+            margin: 150px auto;
+        }
+        
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h2>2017年年度报表汇总</h2>
+        <canvas id=""></canvas>
+    </div>
+</body>
+<script>
+    var cans = document.querySelector("canvas");
+    cans.width = 600;
+    cans.height = 400;
+    cans.style.border = "1px solid red";
+    var context = cans.getContext("2d");
+    // 数据坐标点
+    var selarr = [{
+        x: 100,
+        y: 100
+    }, {
+        x: 130,
+        y: 150
+    }, {
+        x: 200,
+        y: 130
+    }, {
+        x: 300,
+        y: 170
+    }, {
+        x: 400,
+        y: 210
+    }, {
+        x: 500,
+        y: 90
+    }, {
+        x: 560,
+        y: 300
+    }];
+    coordinateSystem(20, 5, selarr);
+
+
+
+    // 根据画布大小建立一个坐标系
+    function coordinateSystem(sideDistance, arrowSize, selarr) {
+        //1:规定坐标系距离画布上下左右距离为20；
+        var space = sideDistance;
+        //2:初始化原点坐标
+        var zeroX = space;
+        var zeroY = cans.height - space;
+        // 3:初始化箭头大小
+        var arrowhead = arrowSize;
+        // 绘制横轴以及横轴箭头
+        context.moveTo(zeroX, zeroY);
+        context.lineTo(cans.width - space, zeroY);
+        // 三角形绘制
+        context.lineTo(cans.width - space - arrowhead, zeroY + arrowhead);
+        context.lineTo(cans.width - space - arrowhead, zeroY - arrowhead);
+        context.lineTo(cans.width - space, zeroY);
+        context.fill();
+        context.stroke();
+        // 绘制纵轴以及纵轴箭头
+        context.moveTo(zeroX, zeroY);
+        context.lineTo(zeroX, space);
+        context.lineTo(zeroX - arrowhead, space + arrowhead);
+        context.lineTo(zeroX - arrowhead, space + arrowhead);
+        context.lineTo(zeroX + arrowhead, space + arrowhead);
+        context.lineTo(zeroX, space);
+        context.fill();
+        context.stroke();
+
+        // 生成方块
+        var flag = false;
+        for (var i = 0; i < selarr.length; i++) {
+            var fangkuai = dot(selarr[i].x, selarr[i].y);
+            //进行连接数据点
+            if (flag == false) {
+                context.moveTo(zeroX, zeroY);
+                context.lineTo(selarr[i].x, selarr[i].y);
+            }
+            flag = true;
+            context.moveTo(selarr[i].x, selarr[i].y);
+            context.lineTo(selarr[i + 1].x, selarr[i + 1].y);
+            context.stroke();
+        }
+        // 进行连接
+        context.beginPath();
+        context.moveTo(zeroX, zeroY);
+
+    }
+    // 生成坐标小方块
+    function dot(abscissa, ordinate) {
+        var swidth = 10;
+        // 设置中心点的坐标
+        // 设置中心点的坐标
+        var data = {
+                x: abscissa,
+                y: ordinate
+            }
+            // 小方块左下角坐标(作为返回值)
+        var zuobiao = {
+                x: data.x - swidth / 2,
+                y: data.y + swidth / 2
+            }
+            // 开始绘制小方块
+        context.beginPath();
+        context.moveTo(data.x - swidth / 2, data.y - swidth / 2); //左上角
+        context.lineTo(data.x + swidth / 2, data.y - swidth / 2); //右上角
+        context.lineTo(data.x + swidth / 2, data.y + swidth / 2); //右下角
+        context.lineTo(data.x - swidth / 2, data.y + swidth / 2); //左下角
+        context.closePath();
+        context.fillStyle = "black";
+        context.fill();
+        return zuobiao;
+    }
+</script>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id=""></canvas>
+</body>
+<script>
+    var cans = document.querySelector("canvas");
+    cans.width = 600;
+    cans.height = 300;
+    cans.style.border = "1px solid red";
+    var context = cans.getContext("2d");
+
+
+    dot(300, 100);
+    dot(100, 100);
+
+    function dot(abscissa, ordinate) {
+        // 设置小正方形宽度50
+        var swidth = 10;
+        // 设置中心点的坐标
+        // 设置中心点的坐标
+        var data = {
+                x: abscissa,
+                y: ordinate
+            }
+            // 开始绘制小方块
+        context.moveTo(data.x - swidth / 2, data.y - swidth / 2); //左上角
+        context.lineTo(data.x + swidth / 2, data.y - swidth / 2); //右上角
+        context.lineTo(data.x + swidth / 2, data.y + swidth / 2); //右下角
+        context.lineTo(data.x - swidth / 2, data.y + swidth / 2); //左下角
+        context.closePath();
+        context.fillStyle = "red";
+        context.fill();
+    }
+</script>
+
+</html>

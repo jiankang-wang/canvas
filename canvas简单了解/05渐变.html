@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id=""></canvas>
+</body>
+<script>
+    var cans = document.querySelector("canvas");
+    cans.width = 600;
+    cans.height = 300;
+    cans.style.border = "1px solid red";
+    var context = cans.getContext("2d");
+    context.lineWidth = 10;
+    // context.moveTo(10, 10);
+    // context.lineTo(400, 10);
+
+    for (var i = 0; i < 256; i++) {
+        context.beginPath();
+        context.moveTo(10, 10 + i);
+        context.lineTo(500, 10 + i);
+        context.strokeStyle = "rgb(255," + i + "," + i + ")";
+        context.stroke();
+    }
+</script>
+
+</html>

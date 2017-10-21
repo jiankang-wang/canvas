@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 创建画布 -->
+    <canvas id="canvas1"></canvas>
+    <script>
+        // 设置画布属性
+        var canvas = document.querySelector("canvas");
+        canvas.width = 600;
+        canvas.height = 600;
+        canvas.style.border = "1px solid red";
+        //    准备画笔（上下文）
+        var context = canvas.getContext("2d");
+        // 设置线宽
+        context.lineWidth = 10;
+        // 设置线的颜色
+        context.strokeStyle = "#e92322";
+        // 设置限的末端类型
+        context.lineCap = "round";
+
+        // 设置起始点坐标
+        context.moveTo(10, 10);
+        context.lineTo(110, 10);
+        context.moveTo(110, 10);
+        context.lineTo(110, 90);
+        context.moveTo(110, 90);
+        context.lineTo(10, 90);
+        context.moveTo(10, 90);
+        context.lineTo(10, 10);
+        // 画笔进行画制
+        // context.fill();
+        context.stroke();
+        // context.fillStyle = "blue";
+    </script>
+</body>
+
+</html>
