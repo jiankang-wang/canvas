@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id=""></canvas>
+</body>
+<script>
+    var cans = document.querySelector("canvas");
+    cans.width = 600;
+    cans.height = 400;
+    cans.style.border = "1px solid red";
+    //获取圆心
+    var context = cans.getContext("2d");
+    // 绘制Y轴
+    context.beginPath();
+    context.moveTo(cans.width / 2, 0);
+    context.lineTo(cans.width / 2, cans.height);
+    context.stroke();
+    // 绘制X轴
+    context.beginPath();
+    context.moveTo(0, cans.height / 2);
+    context.lineTo(cans.width, cans.height / 2);
+    context.stroke();
+    // 绘制圆形
+    // 圆心点:
+    var zeroX = cans.width / 2;
+    var zeroY = cans.height / 2;
+    context.beginPath();
+    context.moveTo(zeroX, zeroY);
+    context.arc(zeroX, zeroY, 150, 30 * Math.PI / 180, 150 * Math.PI / 180);
+    context.closePath();
+    // context.stroke();
+    context.fill();
+</script>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id=""></canvas>
+</body>
+<script>
+    var canvas = document.querySelector("canvas");
+    canvas.width = 600;
+    canvas.height = 400;
+    canvas.style.border = "1px solid red";
+    var context = canvas.getContext("2d");
+    // 数据坐标
+    // 准备数据
+    var data = [{
+        x: 100,
+        y: 100
+    }, {
+        x: 200,
+        y: 120
+    }, {
+        x: 300,
+        y: 180
+    }, {
+        x: 400,
+        y: 300
+    }, {
+        x: 500,
+        y: 140
+    }]
+
+
+    // 利用对象的兴宁市进行生成一个折线图
+    var lineChart = function linechart() {
+            //1:画布
+            this.canvas = canvas;
+            //2:坐标padding距离
+            this.space = 20;
+            //3:计算原点坐标
+            this.coordinateX = this.space;
+            this.coordinateY = canvas.height - this.space;
+            //4:获取上下文
+            this.context = context;
+            //5:画布的宽高
+            this.width = canvas.width;
+            this.height = canvas.height;
+            //6:箭头的大小：
+            this.arrow = 5;
+            //7:规定数据点的大小
+            this.dataPointXY = 10;
+        }
+        //总的调用（也就是页面的初始化）
+    lineChart.prototype.init = function() {
+            this.dragCoodinnatexy();
+            this.drawDataPoint(data);
+        }
+        //需求1：绘制x,y坐标系
+    lineChart.prototype.dragCoodinnatexy = function() {
+            // 绘制X轴
+            this.context.beginPath();
+            this.context.moveTo(this.coordinateX, this.coordinateY);
+            this.context.lineTo(this.width - this.space, this.height - this.space);
+            // X轴箭头
+            this.context.lineTo(this.width - this.space - this.arrow, this.height - this.space + this.arrow);
+            this.context.lineTo(this.width - this.space - this.arrow, this.height - this.space - this.arrow);
+            this.context.lineTo(this.width - this.space, this.height - this.space);
+            this.context.fill();
+            this.context.stroke();
+            // 绘制Y轴
+            this.context.beginPath();
+            this.context.moveTo(this.coordinateX, this.coordinateY);
+            this.context.lineTo(this.space, this.space);
+            // Y轴箭头
+            this.context.lineTo(this.space - this.arrow, this.space + this.arrow);
+            this.context.lineTo(this.space + this.arrow, this.space + this.arrow);
+            this.context.lineTo(this.space, this.space);
+            this.context.fill();
+            this.context.stroke();
+        }
+        // 需求2：绘制数据点
+    lineChart.prototype.drawDataPoint = function(data) {
+            var _this = this;
+            var flag = false;
+            //2.1:获取数据点中心点坐标
+            for (var i = 0; i < data.length; i++) {
+                _this.context.beginPath();
+                _this.context.moveTo(data[i].x - _this.dataPointXY / 2, data[i].y - _this.dataPointXY / 2); //表示左上角
+                _this.context.lineTo(data[i].x + _this.dataPointXY / 2, data[i].y - _this.dataPointXY / 2); //表示右上角
+                _this.context.lineTo(data[i].x + _this.dataPointXY / 2, data[i].y + _this.dataPointXY / 2); //右下角
+                _this.context.lineTo(data[i].x - _this.dataPointXY / 2, data[i].y + _this.dataPointXY / 2); //左下角
+                _this.context.fill();
+                // 需求三：链接数据点
+                if (flag == false) {
+                    _this.context.beginPath();
+                    _this.context.moveTo(_this.coordinateX, _this.coordinateY);
+                    _this.context.lineTo(data[i].x, data[i].y);
+                    _this.context.stroke();
+                }
+                flag = true;
+                _this.context.beginPath();
+                _this.context.moveTo(data[i].x, data[i].y);
+                _this.context.lineTo(data[i + 1].x, data[i + 1].y);
+                _this.context.stroke();
+            }
+        }
+        //初始化调用：
+    new lineChart().init();
+</script>
+
+</html>

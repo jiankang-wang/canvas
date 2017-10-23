@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id=""></canvas>
+</body>
+<script>
+    var cans = document.querySelector("canvas");
+    cans.width = 600;
+    cans.height = 400;
+    cans.style.border = "1px solid red";
+    var context = cans.getContext("2d");
+    // x轴
+    context.beginPath();
+    context.moveTo(0, cans.height / 2);
+    context.lineTo(cans.width, cans.height / 2);
+    context.stroke();
+    // 绘制Y轴
+    context.beginPath();
+    context.moveTo(cans.width / 2, 0);
+    context.lineTo(cans.width / 2, cans.height);
+    context.stroke();
+    // 获取圆心
+    var zeroX = cans.width / 2;
+    var zerorY = cans.height / 2
+        // 绘制文字
+    var text = "贵妃醉酒";
+    context.font = "40px 楷体";
+    context.textBaseline = "middle";
+    context.textAlign = "center";
+
+    context.strokeText(text, cans.width / 2, cans.height / 2);
+</script>
+
+</html>

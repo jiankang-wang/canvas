@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>饼状图的数据</title>
+</head>
+
+<body>
+    <canvas id=""></canvas>
+    <script>
+        var canvas = document.querySelector("canvas");
+        canvas.height = 600;
+        canvas.width = 800;
+        canvas.style.border = "1px solid red";
+        // 定义上下文：
+        var context = canvas.getContext("2d");
+        // 定义圆心坐标
+        var zeroX = canvas.width / 2;
+        var zeroY = canvas.height / 2
+            // 横轴
+        context.beginPath()
+        context.moveTo(0, canvas.height / 2);
+        context.lineTo(canvas.width, canvas.height / 2);
+        context.stroke();
+        // 纵轴
+        context.beginPath();
+        context.moveTo(canvas.width / 2, 0);
+        context.lineTo(canvas.width / 2, canvas.height);
+        context.stroke();
+
+        // 1.准备数据
+        var data = [{
+            title: '15-20岁',
+            num: 12
+        }, {
+            title: '20-25岁',
+            num: 30
+        }, {
+            title: '25-30岁',
+            num: 22
+        }, {
+            title: '30-35岁',
+            num: 10
+        }, {
+            title: '35-100岁',
+            num: 12
+        }, ];
+
+        // 1:构造一个饼状数据对象
+        var pieDataGraph = function piedaatagraph() {
+            // 1.1:canvas本身
+            this.canvas = document.querySelector("canvas");
+            //1.2:padding值
+            this.space = 20;
+            //1.3:canvas画布的宽高
+            this.width = canvas.width;
+            this.height = canvas.height;
+            //1.4:圆心点横纵坐标：
+            this.zeroX = zeroX;
+            this.zeroY = zeroY;
+            //1.5:获取当前上下文
+            this.context = context;
+            //1.6:设置圆的半径
+            this.radius = 100;
+            //1.7:设置延长线的长度：
+            this.extensionLine = 20;
+        }
+
+        //2：初始化
+        pieDataGraph.prototype.init = function() {
+            this.drawcircleData(data);
+        }
+
+        //3:根据比例进行画扇形
+        pieDataGraph.prototype.drawcircleData = function(data) {
+                var _this = this;
+                //表示数据综合
+                var total = 0;
+                //表示圆弧开始角度 
+                var angleStart = 0;
+                // 表示数据所占的百分比
+                var percentage = 0;
+                data.forEach(function(ele, index, data) {
+                    total += ele.num;
+                })
+                data.forEach(function(element, index, data) {
+                    var title = element.title;
+                    percentage = element.num / total;
+                    //进行画圆
+                    _this.context.beginPath();
+                    _this.context.moveTo(zeroX, zeroY);
+                    _this.context.arc(zeroX, zeroY, 100, angleStart, angleStart + percentage * 2 * Math.PI);
+                    _this.context.closePath();
+                    var color = _this.context.fillStyle = _this.customcolors();
+                    _this.context.fill();
+                    // 添加小矩形
+                    _this.drawDesc(color, index, title);
+                    //添加数据
+                    _this.addData(angleStart, percentage * 2 * Math.PI, color, title);
+                    angleStart = angleStart + percentage * 2 * Math.PI;
+                }, this);
+            }
+            //4：随机颜色
+        pieDataGraph.prototype.customcolors = function() {
+                var r = Math.floor(Math.random() * 256);
+                var g = Math.floor(Math.random() * 256);
+                var b = Math.floor(Math.random() * 256);
+                return "rgb(" + r + "," + g + "," + b + ")";
+            }
+            // 5：添加数据
+        pieDataGraph.prototype.addData = function(angleStart, angle, color, title) {
+                var _this = this;
+                //5.1:画延长线
+                // 线的总长度
+                lengthOfLine = _this.radius + _this.extensionLine;
+                //延长线的坐标
+                var lengthOfLineX = Math.cos(angleStart + angle / 2) * lengthOfLine;
+                var legthOfLineY = Math.sin(angleStart + angle / 2) * lengthOfLine;
+                _this.context.beginPath();
+                _this.context.moveTo(zeroX, zeroY);
+                _this.context.lineTo(zeroX + lengthOfLineX, zeroY + legthOfLineY);
+                // 字体宽度
+                var textWidth = _this.context.measureText(title).width;
+                if ((zeroX + lengthOfLineX) > _this.zeroX) {
+                    //表示向右
+                    _this.context.textAlign = "right";
+                    // 进行写字
+                    _this.context.strokeText(title, zeroX + lengthOfLineX + 42, zeroY + legthOfLineY - 20);
+                    _this.context.lineTo(zeroX + lengthOfLineX + textWidth, zeroY + legthOfLineY);
+                    _this.context.strokeStyle = color;
+                    _this.context.stroke();
+                } else {
+                    //表示向左
+                    _this.context.textAlign = "left";
+                    // 进行写字
+                    _this.context.strokeText(title, zeroX + lengthOfLineX - 42, zeroY + legthOfLineY - 20);
+                    _this.context.lineTo(zeroX + lengthOfLineX - textWidth, zeroY + legthOfLineY);
+                    _this.context.strokeStyle = color;
+                    _this.context.stroke();
+                }
+            }
+            // 绘制小矩形
+        pieDataGraph.prototype.drawDesc = function(color, index, title) {
+            this.context.beginPath();
+            this.context.fillStyle = color;
+            this.context.fillRect(20, 20 + index * (16 + 10), 30, 16);
+            this.context.textAlign = 'left';
+            this.context.textBaseline = 'top';
+            this.context.fillText(title, 20 + 30 + 10, 20 + index * (16 + 10));
+        }
+
+
+
+
+
+
+        // 调用初始化
+        new pieDataGraph().init();
+    </script>
+</body>
+
+</html>

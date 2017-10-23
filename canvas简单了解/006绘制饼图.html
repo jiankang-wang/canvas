@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id=""></canvas>
+    <script>
+        var canvas = document.querySelector("canvas");
+        // 模拟数据：
+        var data = [12, 40, 22, 10, 14];
+        canvas.width = 600;
+        canvas.height = 400;
+        canvas.style.border = "1px solid red";
+        var context = canvas.getContext("2d");
+        // 圆心点坐标
+        var zeroX = canvas.width / 2;
+        var zeroY = canvas.height / 2
+            // 横轴
+        context.beginPath();
+        context.moveTo(0, canvas.height / 2);
+        context.lineTo(canvas.width, canvas.height / 2);
+        context.stroke();
+        // 纵轴
+        context.beginPath();
+        context.moveTo(canvas.width / 2, 0);
+        context.lineTo(canvas.width / 2, canvas.height);
+        context.stroke();
+        // 绘制扇形
+        // 起始角度
+        var angleStart = 0;
+        var total = 0;
+        // 所占的比例
+        var proportion = 0;
+        data.forEach(function(item, index, array) {
+            total += item;
+        });
+        data.forEach(function(item, i, array) {
+            proportion = item / total; //规定所占比重
+            context.beginPath();
+            context.moveTo(zeroX, zeroY);
+            context.arc(zeroX, zeroY, 100, angleStart, angleStart + proportion * 2 * Math.PI);
+            context.closePath();
+            context.fillStyle = customcolors();
+            context.fill();
+            angleStart = angleStart + proportion * 2 * Math.PI;
+            console.log(proportion);
+        })
+
+        // 自定义颜色
+        function customcolors() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+
+            return "rgb(" + r + "," + g + "," + b + ")";
+        }
+    </script>
+</body>
+
+
+</html>

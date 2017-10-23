@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<canvas id=""></canvas>
+
+<body>
+    <script>
+        var canvas = document.querySelector("canvas");
+        canvas.width = 600;
+        canvas.height = 400;
+        canvas.style.border = "1px solid red";
+        var context = canvas.getContext("2d");
+        // 计算圆心坐标
+        var zeroX = canvas.width / 2;
+        var zeroY = canvas.height / 2;
+        // 横轴
+        context.beginPath();
+        context.moveTo(0, canvas.height / 2);
+        context.lineTo(canvas.width, canvas.height / 2);
+        context.stroke();
+        // 纵轴
+        context.beginPath();
+        context.moveTo(canvas.width / 2, 0);
+        context.lineTo(canvas.width / 2, canvas.height);
+        context.stroke();
+
+        // 等分圆为180份
+        var n = 180;
+        var timer = null;
+        timer = setInterval(function() {
+            //开始的角度
+            var angleStart = 0;
+            for (var i = 0; i < n; i++) {
+                context.beginPath();
+                context.moveTo(zeroX, zeroY);
+                context.arc(zeroX, zeroY, 100, angleStart, angleStart + 2 * Math.PI / n);
+                context.closePath();
+                context.fillStyle = bepaint();
+                context.fill();
+                angleStart = angleStart + 2 * Math.PI / n;
+            }
+        }, 400);
+        // 进行着色调整
+        function bepaint() {
+            r = Math.floor(Math.random() * 256);
+            g = Math.floor(Math.random() * 256);
+            b = Math.floor(Math.random() * 256);
+            return "rgb(" + r + "," + g + "," + b + ")";
+        }
+    </script>
+</body>
+
+</html>
